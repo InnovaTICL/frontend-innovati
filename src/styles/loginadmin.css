@@ -1,0 +1,118 @@
+/* ====== Admin Login (aislado) ====== */
+.admin-auth{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+
+  /* Fondo premium */
+  background:
+    radial-gradient(900px 500px at 85% 15%, rgba(34,211,238,.10), transparent 45%),
+    radial-gradient(1100px 700px at 15% 85%, rgba(168,85,247,.16), transparent 55%),
+    linear-gradient(180deg, #0b1220 0%, #0b1220 60%, #0d152a 100%);
+}
+
+/* Card */
+.admin-auth .auth-card{
+  width:100%; max-width:420px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 18px;
+  padding: 22px 22px 20px;
+  background: rgba(13, 21, 42, .88);
+  color: #e7ebf3;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Logo chip */
+.admin-auth .logo-chip{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:12px;
+  background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+.admin-auth .logo-img{ width:18px; height:18px; }
+
+/* Inputs + focus accesible (no sangra fuera del login) */
+.admin-auth .form-control,
+.admin-auth .form-select,
+.admin-auth .btn { border-radius: 10px; }
+
+.admin-auth .form-control:focus,
+.admin-auth .form-select:focus,
+.admin-auth .btn:focus{
+  outline: 3px solid transparent;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.4),
+    0 0 0 6px rgba(168,85,247,.35);
+}
+
+/* Errores / ayudas */
+.admin-auth .form-text { opacity:.85; transition: opacity .2s ease; }
+.admin-auth .is-invalid { border-color: #ef4444 !important; }
+.admin-auth .invalid-feedback { color: #fecaca; }
+
+/* Botón principal */
+.admin-auth .btn-gradient{
+  background: linear-gradient(90deg,#7c3aed 0%, #2563eb 100%);
+  color:#fff; border:none; padding:.6rem .9rem; border-radius:12px;
+  box-shadow: 0 10px 30px rgba(37,99,235,.25);
+}
+.admin-auth .btn-gradient:hover{ filter: brightness(1.06); }
+
+/* Link sutil */
+.admin-auth .link-muted{ color:#b8c1d9; text-decoration:none; }
+.admin-auth .link-muted:hover{ color:#fff; text-decoration:underline; }
+
+/* ===== Fix de legibilidad en login admin oscuro ===== */
+.admin-auth { color-scheme: dark; }
+.admin-auth, .admin-auth *{
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Labels y títulos más claros */
+.admin-auth .form-label { 
+  color: #eef2ff; 
+  font-weight: 600; 
+}
+
+/* Texto secundario / ayudas / muted con mejor contraste */
+.admin-auth .text-muted,
+.admin-auth .form-text{
+  color: #b8c1d9 !important;   /* antes quedaba muy gris (#6c757d) */
+  opacity: .95;
+}
+
+/* Placeholders visibles sobre inputs claros */
+.admin-auth ::placeholder {
+  color: #8fa3bf; 
+  opacity: .85;
+}
+
+/* Botón Mostrar/Ocultar con contraste en card oscura */
+.admin-auth .btn-outline-secondary{
+  color: #d5def0;
+  border-color: rgba(255,255,255,.22);
+  background: transparent;
+}
+.admin-auth .btn-outline-secondary:hover{
+  color: #ffffff;
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.3);
+}
+
+/* Checkbox label más legible */
+.admin-auth .form-check-label{
+  color: #e2e8f0;
+}
+
+/* Mensajes de error bien visibles */
+.admin-auth .invalid-feedback{
+  color: #ffd5d5;
+}
+
+/* Footer chiquito (Soporte 24/7 …) con contraste decente */
+.admin-auth .auth-card small.text-muted{
+  color: #c6d0e3 !important;
+  opacity: .9;
+}

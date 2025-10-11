@@ -1,0 +1,90 @@
+/* ===== Paleta InnovaTI (login) ===== */
+:root{
+  --innova-purple: #8A2BE2;
+  --innova-blue:   #2AB3FF;
+  --innova-dark:   #0F1221;
+}
+
+/* ANTES: html, body { ... }  -> AFECTABA TODO */
+.login-page { background: var(--innova-dark); }
+.login-page, .login-page * { box-sizing: border-box; }
+
+/* Fondo degradado con glow: limitar al login */
+.login-page .login-bg {
+  background:
+    radial-gradient(40em 40em at 20% 30%, rgba(138,43,226,.25), transparent 60%),
+    radial-gradient(35em 35em at 80% 70%, rgba(42,179,255,.25), transparent 60%),
+    linear-gradient(135deg, #111429 0%, #0b0e1e 100%);
+  padding: 24px;
+}
+
+/* Card glass */
+.login-page .login-card{
+  width: 100%;
+  max-width: 440px;
+  border-radius: 18px;
+  padding: 28px 24px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,.9);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+.login-page .login-logo{
+  filter: drop-shadow(0 0 16px rgba(42,179,255,.55));
+  border-radius: 12px;
+}
+
+/* Inputs y labels flotantes SOLO en login */
+.login-page .form-floating > label{ color: rgba(255,255,255,.7); }
+.login-page .form-control{
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  color: #fff !important;
+}
+.login-page .form-control:focus{
+  border-color: rgba(42,179,255,.7) !important;
+  box-shadow: 0 0 0 .2rem rgba(42,179,255,.18) !important;
+}
+
+/* Botón gradiente de login */
+.login-page .btn-gradient{
+  background: linear-gradient(90deg, var(--innova-purple), var(--innova-blue));
+  border: none;
+  color: #0b0e1e;
+  font-weight: 600;
+  letter-spacing: .2px;
+  transition: transform .08s ease, filter .2s ease;
+}
+.login-page .btn-gradient:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+.login-page .btn-gradient:active{ transform: translateY(0); }
+
+/* Toggle pass */
+.login-page .toggle-pass{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(calc(-50% - 2px));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: rgba(255,255,255,.85);
+  border-color: rgba(255,255,255,.25);
+}
+
+/* Links y textos en login (NO tocar los globales de Bootstrap) */
+/* ANTES: .text-muted y .form-text (globales) */
+.login-page a.link-light,
+.login-page a.link-light:visited { color: rgba(255,255,255,.85); }
+.login-page a.link-light:hover { color: #fff; }
+
+.login-page .text-muted { color: rgba(255,255,255,.65) !important; }
+.login-page .form-text  { color: rgba(255,255,255,.55) !important; }
+
+/* Alertas en login */
+.login-page .alert-danger{
+  background: rgba(220,53,69,.12);
+  border: 1px solid rgba(220,53,69,.35);
+  color: #ffccd1;
+}
