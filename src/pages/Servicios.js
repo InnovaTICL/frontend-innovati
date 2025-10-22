@@ -6,7 +6,7 @@ import {
   FiCode, FiCloud, FiShield, FiLayers, FiZap, FiPenTool
 } from "react-icons/fi";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+import { API_BASE } from "../config/api";
 
 const FALLBACK = [
   { id: 1, titulo: "Desarrollo a medida", descripcion: "Aplicaciones web con React, APIs seguras y PostgreSQL.", categoria: "Desarrollo", desde_precio: 0 },
@@ -51,7 +51,7 @@ function Servicios() {
     const controller = new AbortController();
     (async () => {
       try {
-        const res = await fetch(`${API_URL}/servicios`, { signal: controller.signal, headers: { Accept: "application/json" } });
+        const res = await fetch(`${API_BASE}/servicios`, { signal: controller.signal, headers: { Accept: "application/json" } });
         if (!res.ok) throw new Error(`API /servicios respondió ${res.status}`);
         const data = await res.json();
         const lista = Array.isArray(data) ? data :

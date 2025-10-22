@@ -4,7 +4,7 @@ import {
 } from "react-bootstrap";
 import { FaWhatsapp } from "react-icons/fa"; // <- icono
 
-const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+import { API_BASE } from "../config/api";
 
 // Número de WhatsApp destino
 const WHATSAPP_NUMBER = "+56900000000"; // cámbialo por el real
@@ -44,7 +44,7 @@ function Contacto() {
 
     try {
       setEnviando(true);
-      const res = await fetch(`${API_URL}/send-email`, {
+      const res = await fetch(`${API_BASE}/send-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, email, fono, mensaje })

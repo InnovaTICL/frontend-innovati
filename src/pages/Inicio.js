@@ -7,7 +7,7 @@ import {
   FiArrowRight, FiCheck, FiCloud, FiCode, FiShield, FiZap
 } from "react-icons/fi";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+import { API_BASE } from "../config/api";
 
 export default function Inicio() {
   const [servicios, setServicios] = useState([]);
@@ -21,7 +21,7 @@ export default function Inicio() {
     (async () => {
       try {
         setCargando(true);
-        const r = await fetch(`${API_URL}/servicios`, { signal: controller.signal });
+        const r = await fetch(`${API_BASE}/servicios`, { signal: controller.signal });
         if (!r.ok) throw new Error("No se pudo obtener servicios");
         const data = await r.json();
         setServicios(Array.isArray(data) ? data : []);
@@ -43,7 +43,7 @@ export default function Inicio() {
     const controller = new AbortController();
     (async () => {
       try {
-        const r = await fetch(`${API_URL}/logo`, { signal: controller.signal });
+        const r = await fetch(`${API_BASE}/logo`, { signal: controller.signal });
         if (!r.ok) throw new Error();
         const blob = await r.blob();
         setLogoUrl(URL.createObjectURL(blob));
