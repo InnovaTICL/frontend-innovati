@@ -19,7 +19,7 @@ function Header() {
           <Nav className="ms-auto">
             <Nav.Link as={NavLink} to="/" end>Inicio</Nav.Link>
             <Nav.Link as={NavLink} to="/servicios">Servicios</Nav.Link>
-            <Nav.Link as={NavLink} to="/planes">Planes</Nav.Link>
+            {/* <Nav.Link as={NavLink} to="/planes">Planes</Nav.Link> */} {/* Ocultado */}
             <Nav.Link as={NavLink} to="/contacto">Contacto</Nav.Link>
           </Nav>
           <div className="d-flex align-items-center gap-2 ms-3">
