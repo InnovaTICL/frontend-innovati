@@ -82,9 +82,10 @@ export default function Inicio() {
                 <Button as={Link} to="/servicios" size="lg" className="btn-gradient px-4">
                   Ver servicios
                 </Button>
-                <Button as={Link} to="/planes" size="lg" variant="outline-light" className="px-4">
-                  Planes y precios
-                </Button>
+                  {/* Botón "Planes y precios" ocultado temporalmente */}
+                  {/* <Button as={Link} to="/planes" size="lg" variant="outline-light" className="px-4">
+                    Planes y precios
+                  </Button> */}
                 <Button as={Link} to="/contacto" variant="link" className="text-white d-inline-flex align-items-center gap-1">
                   Conversemos <FiArrowRight />
                 </Button>
