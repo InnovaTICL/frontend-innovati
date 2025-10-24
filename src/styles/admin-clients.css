@@ -1,0 +1,119 @@
+/* ===== Admin · Clientes (look SaaS pro, toolbar compacta) ===== */
+
+.admin-clients {
+  --border: rgba(0,0,0,.08);
+  --ink: #0f1221;
+  --muted: #5b6073;
+}
+
+/* Toolbar compacta: título izq, buscador fluido, CTA der */
+.toolbar-compact{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+.toolbar-compact h4{
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+.toolbar-compact .search-wrap{
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 260px;
+  max-width: 560px;
+}
+.toolbar-compact .search-icon{
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8a90a3;
+  pointer-events: none;
+  font-size: 16px;
+}
+.toolbar-compact .search-input{
+  padding-left: 2rem;
+  padding-right: 2.25rem;
+  height: 38px;
+  border-radius: 10px;
+}
+.toolbar-compact .btn-clear{
+  position: absolute; right: 6px; top: 50%;
+  transform: translateY(-50%);
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: #fff;
+  line-height: 1; font-size: 18px; color: #6b7280;
+}
+.toolbar-compact .btn-clear:hover{
+  color: #8A2BE2; border-color: rgba(138,43,226,.45); background: rgba(138,43,226,.06);
+}
+.toolbar-compact .actions .btn-gradient{
+  padding: .55rem 1.1rem; font-weight: 700; border-radius: 10px;
+}
+
+/* ===== Tabla ===== */
+.table-card { border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+.table-wrap { max-height: 62vh; overflow: auto; }
+.table-list { margin-bottom: 0; }
+.table-list thead th{
+  position: sticky; top: 0; z-index: 2;
+  font-weight: 800; letter-spacing: .2px; color: #374151;
+  background: #f7f8fb; border-bottom: 1px solid var(--border);
+}
+.table-list tbody td{ vertical-align: middle; border-color: rgba(0,0,0,.05); }
+.table-list tbody tr{ transition: background-color .15s ease, box-shadow .15s ease; }
+.table-list tbody tr:nth-child(even){ background: #fbfcff; }
+.table-list tbody tr:hover{ background: #f5f8ff; }
+
+/* Badges */
+.badge-soft{ border-radius: 999px; padding: .35rem .6rem; font-weight: 700; letter-spacing: .2px; }
+.badge-soft.ok{ background: rgba(25,135,84,.12); color:#198754; border:1px solid rgba(25,135,84,.35); }
+.badge-soft.muted{ background:#eef2f7; color:#4b5563; border:1px solid rgba(0,0,0,.06); }
+
+/* Empty state */
+.empty-state{ max-width:360px; margin:0 auto; }
+.empty-state .empty-icon{
+  width:44px; height:44px; margin:0 auto 8px; display:grid; place-items:center;
+  border-radius:12px; background:linear-gradient(90deg,rgba(138,43,226,.12),rgba(0,174,239,.12)); color:#6b7280; font-size:22px;
+}
+
+/* ===== Modal ===== */
+.modal-backdrop{
+  position: fixed; inset: 0; background: rgba(15,18,33,.55);
+  display:flex; align-items:center; justify-content:center; z-index:1050; backdrop-filter: blur(5px);
+}
+.modal-card{
+  background:#fff; border-radius:16px; box-shadow:0 25px 60px rgba(0,0,0,.15);
+  width:100%; max-width:460px; animation: fadeIn .25s ease-out;
+}
+.modal-header{
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid rgba(0,0,0,.08); padding:1rem 1.25rem; font-weight:600;
+}
+.modal-body{ padding:1.25rem; }
+.btn-close{ border:none; background:transparent; font-size:1.5rem; line-height:1; color:#5b6073; }
+.btn-close:hover{ color:#8A2BE2; cursor:pointer; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
+
+/* Inputs de cards/foco */
+.admin-clients .card .form-control{ border-radius:12px; }
+.admin-clients .card .form-control:focus{ border-color:#8A2BE2; box-shadow:0 0 0 .22rem rgba(138,43,226,.18); }
+
+/* Alert éxito suave */
+.alert-success-soft{ background:#e9f8f1; border:1px solid rgba(10,122,75,.25); color:#0a7a4b; border-radius:12px; }
+
+/* Responsive */
+@media (max-width: 992px){ .table-wrap{ max-height: unset; } }
+@media (max-width: 768px){
+  .toolbar-compact{ flex-direction: column; align-items: stretch; }
+  .toolbar-compact .search-wrap{ max-width: 100%; }
+  .toolbar-compact .actions{ display:flex; justify-content:flex-end; }
+}

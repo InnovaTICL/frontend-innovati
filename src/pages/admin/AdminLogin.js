@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../config/api";
 import { adminSetSession } from "../../config/adminAuth";
 import logo from "../../assets/logo.png";
-import "../../styles/loginadmin.css"; // <-- CSS exclusivo del login
+import "../../styles/loginadmin.css";
 
 function AdminLogin() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [show, setShow] = useState(false);
-  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
@@ -32,7 +31,7 @@ function AdminLogin() {
     try {
       const data = await apiFetch("/api/admin/auth/login", {
         method: "POST",
-        body: { email, password: pass, remember }
+        body: { email, password: pass } // ← sin 'remember'
       });
       adminSetSession({ access_token: data.access_token, user: data.user });
       nav("/admin");
@@ -43,6 +42,8 @@ function AdminLogin() {
     }
   }
 
+  const isInvalid = !email || !pass || !!emailErr || !!passErr || loading;
+
   return (
     <div className="admin-auth">
       <div className="auth-card card-elevated" role="dialog" aria-labelledby="adm-title">
@@ -51,9 +52,16 @@ function AdminLogin() {
           <div className="logo-chip mx-auto mb-2">
             <img src={logo} width={18} height={18} alt="InnovaTI" className="logo-img" />
           </div>
-          <h5 id="adm-title" className="mb-0">Acceso Administrador</h5>
+          <h5 id="adm-title" className="mb-0 auth-title">Acceso Administrador</h5>
           <small className="text-muted">Panel interno de gestión</small>
         </div>
+
+        {/* Error */}
+        {err && (
+          <div className="alert alert-danger py-2" role="alert" aria-live="polite">
+            {err}
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={submit} noValidate>
@@ -98,36 +106,22 @@ function AdminLogin() {
               >
                 {show ? "Ocultar" : "Mostrar"}
               </button>
-              {passErr && <div className="invalid-feedback d-block" role="alert">{passErr}</div>}
             </div>
             <div id="adm-pass-help" className="form-text">
               Puedes mostrar/ocultar mientras escribes.
             </div>
+            {passErr && <div className="invalid-feedback d-block" role="alert">{passErr}</div>}
           </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div className="form-check">
-              <input
-                id="adm-remember"
-                className="form-check-input"
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-              />
-              <label className="form-check-label" htmlFor="adm-remember">
-                Mantener sesión por 12h
-              </label>
-            </div>
-            <a href="/admin/forgot" className="link-muted small">¿Olvidaste la contraseña?</a>
+          {/* CTA */}
+          <div className="mt-4 cta-glow">
+            <button className="btn btn-gradient w-100" disabled={isInvalid} type="submit">
+              {loading && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />}
+              {loading ? "Entrando…" : "Entrar"}
+            </button>
           </div>
 
-          {err && <div className="alert alert-danger" role="alert">{err}</div>}
-
-          <button className="btn btn-gradient w-100" disabled={loading}>
-            {loading && <span className="spinner-border spinner-border-sm me-2" />}
-            Entrar
-          </button>
-
+          {/* Pie suave */}
           <div className="text-center mt-3">
             <small className="text-muted">Soporte 24/7 · v2025.09</small>
           </div>

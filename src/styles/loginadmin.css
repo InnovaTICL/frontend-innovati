@@ -1,118 +1,265 @@
-/* ====== Admin Login (aislado) ====== */
-.admin-auth{
-  min-height:100vh;
-  display:flex; align-items:center; justify-content:center;
-  padding:24px;
+/* ===== Admin Login — InnovaTi (fondo blanco, versión refinada) ===== */
+.admin-auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 
-  /* Fondo premium */
+  /* Halo uniforme superior/inferior (más sutil y centrado) */
   background:
-    radial-gradient(900px 500px at 85% 15%, rgba(34,211,238,.10), transparent 45%),
-    radial-gradient(1100px 700px at 15% 85%, rgba(168,85,247,.16), transparent 55%),
-    linear-gradient(180deg, #0b1220 0%, #0b1220 60%, #0d152a 100%);
-}
+    radial-gradient(900px 500px at 50% 92%, rgba(138,43,226,.12), transparent 60%),
+    radial-gradient(900px 500px at 50% 8%,  rgba(0,174,239,.10), transparent 60%),
+    #ffffff;
+  color: #0f1221;
 
-/* Card */
-.admin-auth .auth-card{
-  width:100%; max-width:420px;
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 18px;
-  padding: 22px 22px 20px;
-  background: rgba(13, 21, 42, .88);
-  color: #e7ebf3;
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.45),
-    inset 0 1px 0 rgba(255,255,255,.08);
-}
-
-/* Logo chip */
-.admin-auth .logo-chip{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:34px; height:34px; border-radius:12px;
-  background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.18);
-}
-.admin-auth .logo-img{ width:18px; height:18px; }
-
-/* Inputs + focus accesible (no sangra fuera del login) */
-.admin-auth .form-control,
-.admin-auth .form-select,
-.admin-auth .btn { border-radius: 10px; }
-
-.admin-auth .form-control:focus,
-.admin-auth .form-select:focus,
-.admin-auth .btn:focus{
-  outline: 3px solid transparent;
-  box-shadow:
-    0 0 0 3px rgba(255,255,255,.4),
-    0 0 0 6px rgba(168,85,247,.35);
-}
-
-/* Errores / ayudas */
-.admin-auth .form-text { opacity:.85; transition: opacity .2s ease; }
-.admin-auth .is-invalid { border-color: #ef4444 !important; }
-.admin-auth .invalid-feedback { color: #fecaca; }
-
-/* Botón principal */
-.admin-auth .btn-gradient{
-  background: linear-gradient(90deg,#7c3aed 0%, #2563eb 100%);
-  color:#fff; border:none; padding:.6rem .9rem; border-radius:12px;
-  box-shadow: 0 10px 30px rgba(37,99,235,.25);
-}
-.admin-auth .btn-gradient:hover{ filter: brightness(1.06); }
-
-/* Link sutil */
-.admin-auth .link-muted{ color:#b8c1d9; text-decoration:none; }
-.admin-auth .link-muted:hover{ color:#fff; text-decoration:underline; }
-
-/* ===== Fix de legibilidad en login admin oscuro ===== */
-.admin-auth { color-scheme: dark; }
-.admin-auth, .admin-auth *{
+  /* Suaviza tipografía global del bloque */
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Labels y títulos más claros */
-.admin-auth .form-label { 
-  color: #eef2ff; 
-  font-weight: 600; 
+/* Card central */
+.admin-auth .auth-card {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 18px;
+  padding: 30px 26px 26px;
+  background: #ffffff;
+  color: #0f1221;
+
+  /* Sombra más natural y expandida (menos dura que antes) */
+  box-shadow:
+    0 12px 36px rgba(0,0,0,.06),
+    0 2px 10px rgba(0,0,0,.03);
 }
 
-/* Texto secundario / ayudas / muted con mejor contraste */
+/* Logo chip + micro-interacción */
+.admin-auth .logo-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,.10);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.admin-auth .logo-chip:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+}
+.admin-auth .logo-img { width: 20px; height: 20px; object-fit: contain; }
+
+/* Título con jerarquía marcada y acento */
+.admin-auth .auth-title {
+  font-weight: 700;
+  font-size: 1.3rem;              /* ↑ ligeramente para mejor jerarquía */
+  letter-spacing: 0.25px;
+  color: #0f1221;
+  margin-bottom: .25rem;
+}
+.admin-auth .auth-title::after {
+  content: "";
+  display: block;
+  width: 56px; height: 3px;        /* un poco más ancho */
+  margin: 12px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg,#8A2BE2,#00AEEF);
+}
+
+/* Texto secundario y ayudas */
 .admin-auth .text-muted,
-.admin-auth .form-text{
-  color: #b8c1d9 !important;   /* antes quedaba muy gris (#6c757d) */
+.admin-auth .form-text {
+  color: #5b6073 !important;
+  opacity: .95;
+}
+.admin-auth .form-text { margin-top: .35rem; }
+
+/* Inputs + foco accesible */
+.admin-auth .form-control,
+.admin-auth .btn {
+  border-radius: 10px;
+  transition: border-color .15s ease, box-shadow .2s ease, transform .08s ease, background-color .15s ease;
+}
+.admin-auth .form-control {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.15);
+  color: #0f1221;
+}
+.admin-auth .form-control:focus {
+  border-color: #8A2BE2;
+  box-shadow: 0 0 0 .22rem rgba(138,43,226,.22);
+}
+.admin-auth ::placeholder { color: #8a90a3; }
+
+/* Grupo contraseña (botón Mostrar/Ocultar) */
+.admin-auth .btn-outline-secondary {
+  color: #555;
+  border-color: rgba(0,0,0,.25);
+  background: #fff;
+}
+.admin-auth .btn-outline-secondary:hover {
+  color: #8A2BE2;
+  border-color: rgba(138,43,226,.5);
+  background: rgba(138,43,226,.06);
+}
+
+/* CTA principal (gradiente + glow) */
+.admin-auth .btn-gradient {
+  background: linear-gradient(90deg,#8A2BE2 0%, #00AEEF 100%);
+  color: #fff;
+  border: none;
+  padding: .75rem .9rem;      /* un poco más alto para mejor tactilidad */
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  box-shadow: 0 12px 26px rgba(138,43,226,.22);
+}
+.admin-auth .btn-gradient:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.admin-auth .btn-gradient:active { transform: translateY(0); }
+.admin-auth .btn-gradient:disabled { filter: grayscale(.2) brightness(.95); box-shadow: none; }
+
+/* Glow suave debajo del CTA */
+.admin-auth .cta-glow { position: relative; }
+.admin-auth .cta-glow::after {
+  content:"";
+  position:absolute; left:10%; right:10%; bottom:-12px; height:22px;
+  filter: blur(14px);
+  background: radial-gradient(60% 70% at 50% 50%, rgba(138,43,226,.32), rgba(0,174,239,.18));
+  pointer-events:none;
+}
+
+/* Enlaces secundarios (si se usan) */
+.admin-auth .link-muted {
+  color: #6f42c1;
+  text-decoration: none;
+  font-weight: 600;
+}
+.admin-auth .link-muted:hover {
+  color: #00AEEF;
+  text-decoration: underline;
+}
+
+/* Estados de error */
+.admin-auth .is-invalid { border-color: #ef4444 !important; }
+.admin-auth .invalid-feedback { color: #b42318; font-weight: 500; }
+
+/* Separación uniforme entre bloques del form */
+.admin-auth .mb-3 { margin-bottom: 1rem !important; }
+
+/* Footer de la card (nota de versión/soporte) */
+.admin-auth .auth-card small.text-muted {
+  color: #6c757d !important;
   opacity: .95;
 }
 
-/* Placeholders visibles sobre inputs claros */
-.admin-auth ::placeholder {
-  color: #8fa3bf; 
-  opacity: .85;
+/* Responsivo fino */
+@media (max-width: 480px) {
+  .admin-auth { padding: 16px; }
+  .admin-auth .auth-card { padding: 24px 18px; border-radius: 16px; }
+  .admin-auth .auth-title { font-size: 1.2rem; }
+}
+/* ===== Modal elegante ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 18, 33, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  backdrop-filter: blur(5px);
 }
 
-/* Botón Mostrar/Ocultar con contraste en card oscura */
-.admin-auth .btn-outline-secondary{
-  color: #d5def0;
-  border-color: rgba(255,255,255,.22);
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0,0,0,.15);
+  width: 100%;
+  max-width: 460px;
+  animation: fadeIn .25s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 1.25rem;
+}
+
+.btn-close {
+  border: none;
   background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #5b6073;
 }
-.admin-auth .btn-outline-secondary:hover{
-  color: #ffffff;
-  background: rgba(255,255,255,.10);
-  border-color: rgba(255,255,255,.3);
-}
-
-/* Checkbox label más legible */
-.admin-auth .form-check-label{
-  color: #e2e8f0;
+.btn-close:hover {
+  color: #8A2BE2;
+  cursor: pointer;
 }
 
-/* Mensajes de error bien visibles */
-.admin-auth .invalid-feedback{
-  color: #ffd5d5;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* ==== Toolbar layout refinado ==== */
+.admin-clients .toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.05);
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
 }
 
-/* Footer chiquito (Soporte 24/7 …) con contraste decente */
-.admin-auth .auth-card small.text-muted{
-  color: #c6d0e3 !important;
-  opacity: .9;
+/* Alinea título + buscador a la izquierda */
+.admin-clients .toolbar h4 {
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111;
+}
+
+.admin-clients .search-wrap {
+  position: relative;
+  min-width: 260px;
+}
+
+.admin-clients .search-input {
+  padding-left: 2rem;
+  border-radius: 10px;
+  height: 38px;
+}
+
+.admin-clients .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.admin-clients .btn-gradient {
+  padding: .55rem 1.2rem;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .admin-clients .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-clients .search-wrap {
+    width: 100%;
+  }
 }

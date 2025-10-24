@@ -3,6 +3,7 @@ import { apiFetch } from "../../config/api";
 import { adminGetToken } from "../../config/adminAuth";
 import AdminNavbar from "../../components/AdminNavbar";
 import "../../styles/theme.css";
+import "../../styles/admin-projects.css"; // 👈 hoja específica
 
 // Normaliza <input type="date" />
 const toISODate = (v) => {
@@ -20,7 +21,6 @@ function AdminProjects() {
   const [clients, setClients] = useState([]);
   const [err, setErr] = useState("");
 
-  // Form (sin progress)
   const [form, setForm] = useState({
     client_id: "",
     code: "",
@@ -35,9 +35,8 @@ function AdminProjects() {
 
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("todos");
-  const [clientFilter, setClientFilter] = useState("todos"); // 👈 nuevo filtro
+  const [clientFilter, setClientFilter] = useState("todos");
 
-  // Modal control
   const [showModal, setShowModal] = useState(false);
   const codeRef = useRef(null);
 
@@ -50,13 +49,11 @@ function AdminProjects() {
         apiFetch("/api/admin/clients", { token }),
       ]);
       setRows(p || []); setClients(c || []);
-    } catch (e) { setErr(e.message); }
+    } catch (e) { setErr(e.message || "No pudimos cargar proyectos"); }
   }
 
   // Autofocus cuando abre el modal
-  useEffect(() => {
-    if (showModal && codeRef.current) codeRef.current.focus();
-  }, [showModal]);
+  useEffect(() => { if (showModal && codeRef.current) codeRef.current.focus(); }, [showModal]);
 
   // Cerrar modal con ESC
   useEffect(() => {
@@ -84,7 +81,6 @@ function AdminProjects() {
           description: form.description || null,
         }
       });
-      // Reset + cerrar modal + recargar
       setForm({
         client_id: "",
         code: "",
@@ -98,24 +94,20 @@ function AdminProjects() {
       });
       setShowModal(false);
       load();
-    } catch (e) { setErr(e.message); }
+    } catch (e) { setErr(e.message || "No pudimos crear el proyecto"); }
   }
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
     return (rows || []).filter(r => {
-      // filtro por estado
       const okSt = status === "todos" ? true : (r.status || "").toLowerCase().includes(status);
-      // filtro por cliente
       const okCli = clientFilter === "todos" ? true : String(r.client_id) === String(clientFilter);
-      // búsqueda
       const hay = `${r.code} ${r.name} ${r.client_name}`.toLowerCase();
       const okTxt = s ? hay.includes(s) : true;
       return okSt && okCli && okTxt;
     });
   }, [rows, q, status, clientFilter]);
 
-  // KPIs
   const kpi = useMemo(() => {
     const total = filtered.length;
     const enCurso = filtered.filter(r => /curso|progress/i.test(r.status || "")).length;
@@ -125,105 +117,121 @@ function AdminProjects() {
     return { total, enCurso, cerrados, espera, avg };
   }, [filtered]);
 
+  const statusBadge = (st) => {
+    const s = (st || "").toLowerCase();
+    if (s.includes("curso"))   return "badge-st ok";
+    if (s.includes("cerr"))    return "badge-st done";
+    if (s.includes("esper"))   return "badge-st hold";
+    return "badge-st muted";
+  };
+
   return (
     <>
       <AdminNavbar />
-      <div className="container py-3">
-        {/* Barra superior */}
-        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-          <h4 className="mb-0">Proyectos</h4>
-          <div className="d-flex flex-wrap gap-2">
+
+      <div className="container py-3 admin-projects">
+        {/* Toolbar compacta */}
+        <div className="toolbar toolbar-compact shadow-sm mb-3">
+          <h4 className="mb-0 fw-semibold">Proyectos</h4>
+
+          <div className="search-wrap flex-grow-1">
+            <span className="search-icon">🔎</span>
             <input
-              className="form-control"
-              style={{maxWidth:320}}
+              className="form-control search-input w-100"
               placeholder="Buscar por código, nombre o cliente…"
               value={q}
               onChange={(e)=>setQ(e.target.value)}
             />
-            <select
-              className="form-select"
-              value={status}
-              onChange={(e)=>setStatus(e.target.value)}
-              style={{maxWidth:160}}
-              title="Filtrar por estado"
-            >
-              <option value="todos">Todos</option>
-              <option value="curso">En curso</option>
-              <option value="espera">En espera</option>
-              <option value="cerrado">Cerrado</option>
-            </select>
-            <select
-              className="form-select"
-              value={clientFilter}
-              onChange={(e)=>setClientFilter(e.target.value)}
-              style={{maxWidth:220}}
-              title="Filtrar por cliente"
-            >
-              <option value="todos">Todos los clientes</option>
-              {clients.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-            <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-              Nuevo proyecto
-            </button>
+            {q && (
+              <button className="btn btn-clear" type="button" onClick={()=>setQ("")} aria-label="Limpiar">×</button>
+            )}
           </div>
+
+          <select
+            className="form-select filter"
+            value={status}
+            onChange={(e)=>setStatus(e.target.value)}
+            title="Filtrar por estado"
+          >
+            <option value="todos">Todos</option>
+            <option value="curso">En curso</option>
+            <option value="espera">En espera</option>
+            <option value="cerrado">Cerrado</option>
+          </select>
+
+          <select
+            className="form-select filter"
+            value={clientFilter}
+            onChange={(e)=>setClientFilter(e.target.value)}
+            title="Filtrar por cliente"
+          >
+            <option value="todos">Todos los clientes</option>
+            {clients.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+
+          <button className="btn btn-gradient btn-new" onClick={() => setShowModal(true)}>
+            <span className="ico">＋</span> Nuevo proyecto
+          </button>
+
         </div>
 
         {/* KPIs */}
         <div className="row g-3 mb-3">
-          <div className="col-sm-6 col-lg-2"><div className="kpi-card"><div className="kpi-title">Total</div><div className="kpi-value">{kpi.total}</div></div></div>
-          <div className="col-sm-6 col-lg-2"><div className="kpi-card"><div className="kpi-title">En curso</div><div className="kpi-value">{kpi.enCurso}</div></div></div>
-          <div className="col-sm-6 col-lg-2"><div className="kpi-card"><div className="kpi-title">En espera</div><div className="kpi-value">{kpi.espera}</div></div></div>
-          <div className="col-sm-6 col-lg-2"><div className="kpi-card"><div className="kpi-title">Cerrados</div><div className="kpi-value">{kpi.cerrados}</div></div></div>
-          <div className="col-sm-6 col-lg-2"><div className="kpi-card"><div className="kpi-title">Avance prom.</div><div className="kpi-value">{kpi.avg}%</div></div></div>
+          <div className="col-6 col-md-3 col-lg-2"><div className="kpi-card"><div className="kpi-title">Total</div><div className="kpi-value">{kpi.total}</div></div></div>
+          <div className="col-6 col-md-3 col-lg-2"><div className="kpi-card"><div className="kpi-title">En curso</div><div className="kpi-value">{kpi.enCurso}</div></div></div>
+          <div className="col-6 col-md-3 col-lg-2"><div className="kpi-card"><div className="kpi-title">En espera</div><div className="kpi-value">{kpi.espera}</div></div></div>
+          <div className="col-6 col-md-3 col-lg-2"><div className="kpi-card"><div className="kpi-title">Cerrados</div><div className="kpi-value">{kpi.cerrados}</div></div></div>
+          <div className="col-12 col-lg-4"><div className="kpi-card"><div className="kpi-title">Avance prom.</div><div className="kpi-value">{kpi.avg}%</div></div></div>
         </div>
 
         {err && <div className="alert alert-danger">{err}</div>}
 
         {/* Tabla */}
-        <div className="table-responsive">
-          <table className="table table-hover align-middle">
-            <thead className="table-light">
-              <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Estado</th>
-                <th style={{width:160}}>%</th>
-                <th className="text-end">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map(r => (
-                <tr key={r.id}>
-                  <td className="text-muted">{r.id}</td>
-                  <td className="small">{r.client_name}</td>
-                  <td className="fw-semibold">{r.code}</td>
-                  <td>{r.name}</td>
-                  <td><span className="badge badge-soft bg-light text-muted">{r.status}</span></td>
-                  <td>
-                    <div className="progress brand" style={{height:8}}>
-                      <div className="progress-bar" style={{width:`${r.progress || 0}%`}} />
-                    </div>
-                  </td>
-                  <td className="text-end">
-                    <a className="btn btn-sm btn-outline-primary" href={`/admin/projects/${r.id}`}>
-                      Ver detalle
-                    </a>
-                  </td>
-                </tr>
-              ))}
-              {filtered.length === 0 && (
+        <div className="card table-card shadow-sm">
+          <div className="card-body p-0 table-wrap">
+            <table className="table table-hover align-middle mb-0 table-list">
+              <thead className="table-light">
                 <tr>
-                  <td colSpan="7" className="text-center text-muted py-4">
-                    No hay resultados con los filtros actuales
-                  </td>
+                  <th style={{width:72}}>ID</th>
+                  <th>Cliente</th>
+                  <th>Código</th>
+                  <th>Nombre</th>
+                  <th>Estado</th>
+                  <th style={{width:160}}>%</th>
+                  <th className="text-end">Acciones</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filtered.length ? filtered.map(r => (
+                  <tr key={r.id}>
+                    <td className="text-muted">{r.id}</td>
+                    <td className="small">{r.client_name}</td>
+                    <td className="fw-semibold">{r.code}</td>
+                    <td>{r.name}</td>
+                    <td><span className={statusBadge(r.status)}>{r.status}</span></td>
+                    <td>
+                      <div className="progress brand h-8">
+                        <div className="progress-bar" style={{width:`${r.progress || 0}%`}} />
+                      </div>
+                    </td>
+                    <td className="text-end">
+                      <a className="btn btn-sm btn-outline-primary" href={`/admin/projects/${r.id}`}>
+                        Ver detalle
+                      </a>
+                    </td>
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan="7" className="py-5 text-center text-muted">
+                      No hay resultados con los filtros actuales
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

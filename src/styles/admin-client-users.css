@@ -1,0 +1,96 @@
+/* ===== Estilos Admin · Usuarios de Cliente ===== */
+.admin-client-users {
+  --border: rgba(0,0,0,.08);
+}
+
+/* Toolbar maestro → detalle */
+.toolbar-compact {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+
+/* Selector de cliente */
+.client-select-wrap { min-width: 260px; }
+.client-select {
+  border-radius: 10px;
+  height: 38px;
+}
+
+/* Búsqueda dentro del cliente */
+.search-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 240px;
+  max-width: 560px;
+}
+.search-input {
+  padding-left: 2rem;
+  padding-right: 2.25rem;
+  height: 38px;
+  border-radius: 10px;
+}
+.search-input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8a90a3;
+  font-size: 16px;
+  pointer-events: none;
+}
+.btn-clear {
+  position: absolute; right: 6px; top: 50%;
+  transform: translateY(-50%);
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: #fff;
+  line-height: 1; font-size: 18px; color: #6b7280;
+}
+.btn-clear:hover {
+  color: #8A2BE2;
+  border-color: rgba(138,43,226,.45);
+  background: rgba(138,43,226,.06);
+}
+
+/* Badges de rol */
+.badge-role {
+  border-radius: 999px;
+  padding: .35rem .6rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+  border: 1px solid transparent;
+}
+.badge-role.client {
+  background: #eaf6ff;
+  color: #0b6bcb;
+  border-color: rgba(11,107,203,.25);
+}
+.badge-role.admin {
+  background: #efe9ff;
+  color: #6b21a8;
+  border-color: rgba(107,33,168,.25);
+}
+
+/* Modal específico */
+.modal-card .form-control:focus,
+.modal-card .form-select:focus {
+  border-color: #8A2BE2;
+  box-shadow: 0 0 0 .22rem rgba(138,43,226,.18);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toolbar-compact { flex-direction: column; align-items: stretch; }
+  .search-wrap { max-width: 100%; }
+}
