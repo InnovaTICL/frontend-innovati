@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   Container,
@@ -18,15 +18,19 @@ import {
   FiShield,
   FiMessageSquare,
   FiArrowLeft,
-  FiTrendingUp,
+  FiCode,
+  FiCloud,
+  FiLayers,
+  FiZap,
+  FiPenTool,
 } from "react-icons/fi";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import "../styles/servicioDetalle.css";
 
-const CLP = new Intl.NumberFormat("es-CL", {
-  style: "currency",
-  currency: "CLP",
-  maximumFractionDigits: 0,
-});
-
+/* ============================
+   UTIL: slug consistente
+============================ */
 const toSlug = (t = "") =>
   t
     .toLowerCase()
@@ -36,213 +40,212 @@ const toSlug = (t = "") =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+/* ============================
+   Datos del catálogo (coherente
+   con la página de Servicios)
+============================ */
+const CLP = new Intl.NumberFormat("es-CL", {
+  style: "currency",
+  currency: "CLP",
+  maximumFractionDigits: 0,
+});
+
+const CAT_ICON = {
+  Desarrollo: <FiCode />,
+  Cloud: <FiCloud />,
+  Soporte: <FiShield />,
+  Integraciones: <FiLayers />,
+  Automatización: <FiZap />,
+  "UI/UX": <FiPenTool />,
+};
+
 const SERVICIOS = [
   {
     titulo: "Desarrollo a medida",
     categoria: "Desarrollo",
     desde: 120000,
-    heroTag: "Apps y APIs",
+    heroTag: "React • APIs • PostgreSQL",
     queEs:
-      "Creamos aplicaciones web y APIs a la medida de tu negocio usando tecnologías modernas (React, Flask/Node y PostgreSQL). Entregamos soluciones escalables, seguras y fáciles de mantener.",
+      "Construimos aplicaciones web a medida con React/Flask o Node, APIs seguras y base de datos PostgreSQL. Nos adaptamos a tu proceso y levantamos el alcance contigo.",
     comoSeHace: [
-      "Trabajamos con metodología ágil Scrum: organizamos el trabajo en sprints cortos y medibles.",
-      "Nos mantenemos en contacto constante para priorizar funcionalidades y validar avances.",
-      "Prototipamos (mockups) antes de desarrollar para asegurar alineamiento.",
-      "Cada sprint genera entregables funcionales y visibles.",
+      "Arquitectura y stack definidos desde el Sprint 0.",
+      "Definición de historias de usuario priorizadas.",
+      "Desarrollo por sprints con demo semanal.",
+      "Pruebas, documentación y handoff.",
     ],
     entregables: [
-      "Código en repositorio privado y documentado.",
-      "Entornos de desarrollo, QA y producción en la nube.",
-      "Manual breve de uso + sesión de capacitación grabada.",
-      "Plan de soporte post-entrega para garantizar continuidad.",
+      "Código fuente en repositorio privado",
+      "API y Frontend desplegados",
+      "Documentación de endpoints y setup",
+      "Guía de despliegue y handover",
     ],
     tiempos:
-      "Un MVP inicial puede estar listo en 2–3 semanas; luego seguimos iterando en sprints semanales según alcance.",
+      "Proyectos pequeños: 2–4 sprints. Proyectos medianos: 6–10 sprints. Estimamos contigo en el Sprint 0.",
     highlights: [
-      { icon: <FiShield />, text: "Buenas prácticas de seguridad y hardening" },
-      { icon: <FiRefreshCw />, text: "Despliegues CI/CD (cuando aplica)" },
-      { icon: <FiTrendingUp />, text: "Base escalable para crecer" },
+      { icon: <FiShield />, text: "Buenas prácticas de seguridad por defecto" },
+      { icon: <FiRefreshCw />, text: "Integración y entrega continua (CI/CD)" },
     ],
   },
   {
     titulo: "Cloud y DevOps",
     categoria: "Cloud",
     desde: 200000,
-    heroTag: "AWS/Azure · CI/CD",
+    heroTag: "AWS/Azure • CI/CD",
     queEs:
-      "Automatizamos despliegues y optimizamos costos en la nube (AWS/Azure) con pipelines CI/CD y buenas prácticas.",
+      "Despliegues confiables en AWS o Azure, pipelines de CI/CD y optimización de costos para evitar sobrecargos.",
     comoSeHace: [
-      "Assessment de la infraestructura actual.",
-      "Infraestructura como código (IaC) + pipelines CI/CD.",
-      "Monitoreo básico, logging y alertas.",
+      "Inventario y diagnóstico del entorno actual.",
+      "Infraestructura como código (IaC) cuando aplica.",
+      "Pipelines de CI/CD y monitoreo.",
+      "Hardening básico y backups.",
     ],
     entregables: [
-      "Pipeline automatizado de despliegue.",
-      "Plantillas IaC (Terraform/CloudFormation).",
-      "Reporte de costos y recomendaciones.",
+      "Pipeline CI/CD operativo",
+      "Infraestructura descrita (IaC) opcional",
+      "Monitoreo y alertas básicas",
+      "Checklist de hardening y backups",
     ],
-    tiempos: "2–7 días según complejidad.",
+    tiempos: "Entre 2 y 6 sprints según complejidad e integraciones.",
     highlights: [
-      { icon: <FiShield />, text: "Controles y permisos mínimos necesarios" },
-      { icon: <FiClock />, text: "Rollbacks más rápidos" },
-      { icon: <FiTrendingUp />, text: "Ahorro por optimización de recursos" },
+      { icon: <FiRefreshCw />, text: "Automatización de despliegues" },
+      { icon: <FiShield />, text: "Mejoras de seguridad y cumplimiento" },
     ],
   },
   {
     titulo: "Soporte y seguridad",
     categoria: "Soporte",
     desde: 180000,
-    heroTag: "Monitoreo · Backups",
+    heroTag: "Backups • Monitoreo • Hardening",
     queEs:
-      "Backups, monitoreo y hardening continuo de tu sitio o app. Mantención mensual con foco preventivo.",
+      "Plan de soporte técnico con monitoreo, backups y hardening continuo. Nos enfocamos en estabilidad y SLA.",
     comoSeHace: [
-      "Revisión de riesgos y plan de parches.",
-      "Automatización de backups y health checks.",
-      "Aplicación de cabeceras/permissions y buenas prácticas.",
+      "Onboarding técnico y métricas clave.",
+      "Monitoreo 24/7 con alertas calibradas.",
+      "Backups verificados y pruebas de restore.",
+      "Parcheo y hardening periódico.",
     ],
     entregables: [
-      "Plan de respaldo y restauración probado.",
-      "Checklist de seguridad aplicado.",
-      "Reporte mensual de estado.",
+      "Panel con métricas y alertas",
+      "Política de backups y restore test",
+      "Reporte mensual de salud",
+      "Acciones de hardening aplicadas",
     ],
-    tiempos: "Servicio mensual renovable.",
+    tiempos:
+      "Inicial (setup) 1–2 sprints; luego continuidad mensual según SLA acordado.",
     highlights: [
-      { icon: <FiShield />, text: "Endurecimiento de superficie de ataque" },
-      { icon: <FiClock />, text: "Alertas y tiempos de respuesta claros" },
-      { icon: <FiMessageSquare />, text: "Canal directo para incidencias" },
+      { icon: <FiShield />, text: "SLA y métricas claras desde el inicio" },
     ],
   },
   {
     titulo: "Landing corporativa",
     categoria: "Desarrollo",
     desde: 130000,
-    heroTag: "SEO básico · Analytics",
+    heroTag: "SEO básico • Analytics",
     queEs:
-      "Sitio institucional rápido, responsive y optimizado para buscadores, con configuración de analytics.",
+      "Página institucional rápida y moderna con SEO básico, analytics y formulario de contacto.",
     comoSeHace: [
-      "Wireframe + propuesta visual.",
-      "Implementación responsive (mobile-first).",
-      "SEO on-page básico y medición.",
+      "Wireframe + contenido en Sprint 0",
+      "Diseño UI/UX y desarrollo responsivo",
+      "Optimización de rendimiento",
+      "Deploy y medición con analytics",
     ],
     entregables: [
-      "Landing publicada con dominio y SSL.",
-      "Contenidos editables y guía de edición.",
-      "Checklist de performance/accesibilidad básico.",
+      "Sitio estático o SPA desplegado",
+      "Integración de analytics y metas",
+      "Guía de edición de contenido",
+      "Backup del código",
     ],
-    tiempos: "3–7 días típicos según contenidos.",
-    highlights: [
-      { icon: <FiTrendingUp />, text: "Rápida indexación y performance" },
-      { icon: <FiShield />, text: "SSL y buenas prácticas de seguridad" },
-      { icon: <FiMessageSquare />, text: "Revisión de copy y CTA efectivos" },
-    ],
+    tiempos: "1–3 sprints, según secciones y contenidos.",
+    highlights: [{ icon: <FiRefreshCw />, text: "Carga veloz y Lighthouse verde" }],
   },
   {
     titulo: "E-commerce básico",
     categoria: "Desarrollo",
     desde: 250000,
-    heroTag: "Catálogo · Checkout",
+    heroTag: "Catálogo • Checkout local",
     queEs:
-      "Tienda online con catálogo, carrito y pasarela local. Ideal para partir y crecer gradualmente.",
+      "Carrito, catálogo y checkout con pasarela local. Ideal para comenzar rápido y escalar.",
     comoSeHace: [
-      "Setup base (Woo/Shopify o headless simple).",
-      "Carga inicial de productos y variantes.",
-      "Integración de pagos locales y envíos.",
+      "Inventario, variantes y políticas comerciales",
+      "Integración con pasarela local",
+      "Módulos de despacho y estados de pedido",
+      "Capacitación breve de uso",
     ],
     entregables: [
-      "Tienda operativa lista para vender.",
-      "Plantilla de carga masiva + capacitación.",
-      "Guía antifraude y buenas prácticas.",
+      "Tienda operativa con medios de pago",
+      "Gestor de productos y stock",
+      "Documentación de administración",
+      "Soporte post-entrega inicial",
     ],
-    tiempos: "1–2 semanas según integraciones.",
+    tiempos: "4–6 sprints dependiendo de integraciones.",
     highlights: [
-      { icon: <FiTrendingUp />, text: "Listo para vender rápido" },
-      { icon: <FiShield />, text: "Buenas prácticas PCI-aware" },
-      { icon: <FiRefreshCw />, text: "Evolutivo por módulos" },
+      { icon: <FiRefreshCw />, text: "Checkout simple y rápido" },
+      { icon: <FiShield />, text: "Buenas prácticas de seguridad" },
     ],
   },
   {
     titulo: "Integraciones API",
     categoria: "Integraciones",
     desde: 180000,
-    heroTag: "REST · JSON",
+    heroTag: "ERP/CRM • Webhooks",
     queEs:
-      "Conectamos tu sistema con ERPs/CRMs/pasarelas a través de APIs REST. Manejo de errores, logs y reintentos.",
+      "Conectamos tu sistema con ERPs, CRMs o pasarelas mediante APIs seguras y observables.",
     comoSeHace: [
-      "Revisión de API destino: auth, límites y costos.",
-      "Desarrollo de conector y pruebas con datos de ejemplo.",
-      "Observabilidad básica (logs/alertas).",
+      "Revisión técnica de endpoints y auth",
+      "Mapeo de datos y pruebas de integración",
+      "Manejo de errores y reintentos",
+      "Observabilidad y logs",
     ],
     entregables: [
-      "Conector funcional (endpoint/worker).",
-      "Documentación de uso y parámetros.",
-      "Tablero simple de monitoreo (opcional).",
+      "Servicios de integración desplegados",
+      "Documento de endpoints y contratos",
+      "Métricas y logs de integración",
+      "Plan de rollback",
     ],
-    tiempos: "3–10 días según API.",
-    highlights: [
-      { icon: <FiRefreshCw />, text: "Reintentos y tolerancia a fallos" },
-      { icon: <FiShield />, text: "Gestión de credenciales segura" },
-      { icon: <FiTrendingUp />, text: "Ahorro de tiempo operando" },
-    ],
+    tiempos: "2–6 sprints, según cantidad de sistemas a integrar.",
+    highlights: [{ icon: <FiLayers />, text: "Contratos claros y versionados" }],
   },
   {
     titulo: "Automatización",
     categoria: "Automatización",
     desde: 200000,
-    heroTag: "Bots · Scraping controlado",
+    heroTag: "Bots • Scraping controlado",
     queEs:
-      "Automatizamos tareas repetitivas con bots/workers. Scraping responsable y ejecutores programados.",
+      "Automatizamos tareas repetitivas con bots y scraping controlado cuando es legalmente posible.",
     comoSeHace: [
-      "Definición del flujo y fuentes de datos.",
-      "Prototipo del bot en entorno controlado.",
-      "Programación y alertas de ejecución.",
+      "Evaluación de riesgos y límites legales",
+      "Diseño del flujo y triggers",
+      "Desarrollo y pruebas de tolerancia a fallos",
+      "Monitoreo y mejoras",
     ],
     entregables: [
-      "Worker/script automatizado.",
-      "Manual de operación y límites.",
-      "Registro de ejecuciones y fallos.",
+      "Bot/automatización operativa",
+      "Documentación de operación",
+      "Logs y métricas básicas",
+      "Plan de mantenimiento",
     ],
-    tiempos: "5–10 días según complejidad.",
-    highlights: [
-      { icon: <FiClock />, text: "Ahorro de horas operativas" },
-      { icon: <FiRefreshCw />, text: "Ejecuciones programadas" },
-      { icon: <FiShield />, text: "Respeto de términos y límites" },
-    ],
-  },
-  {
-    titulo: "Mantenimiento visual",
-    categoria: "UI/UX",
-    desde: 80000,
-    heroTag: "UI/UX · Accesibilidad",
-    queEs:
-      "Mejoramos la apariencia, jerarquía visual y microcopys sin tocar la lógica de negocio.",
-    comoSeHace: [
-      "Diagnóstico de usabilidad y priorización de quick-wins.",
-      "Ajustes tipográficos, espaciados, colores y estados.",
-      "Pruebas de accesibilidad básicas.",
-    ],
-    entregables: [
-      "Estilos actualizados y guía de uso.",
-      "Antes/Después con capturas.",
-      "Listado de mejoras futuras sugeridas.",
-    ],
-    tiempos: "2–5 días por sprint corto.",
-    highlights: [
-      { icon: <FiTrendingUp />, text: "Mejora inmediata de conversión" },
-      { icon: <FiMessageSquare />, text: "Microcopys claros y humanos" },
-      { icon: <FiShield />, text: "Contrastes y accesibilidad" },
-    ],
+    tiempos: "2–5 sprints según complejidad y volumen.",
+    highlights: [{ icon: <FiZap />, text: "Ahorro de tiempo y costos" }],
   },
 ];
 
+// Índice por slug (garantiza coincidencia)
 const INDEX = Object.fromEntries(SERVICIOS.map((s) => [toSlug(s.titulo), s]));
 
+/* ============================
+   Página
+============================ */
 function ServicioDetalle() {
   const { slug } = useParams();
   const data = INDEX[slug];
 
+  useEffect(() => {
+    AOS.init({ duration: 800, once: true, easing: "ease-out-cubic" });
+  }, []);
+
   if (!data) {
     return (
-      <Container className="py-5">
+      <Container className="py-5 text-center">
         <h2 className="mb-3">Servicio no encontrado</h2>
         <p className="text-muted">Revisa el enlace o vuelve al listado.</p>
         <Link to="/servicios" className="btn btn-primary">
@@ -255,14 +258,7 @@ function ServicioDetalle() {
   return (
     <>
       {/* HERO */}
-      <div
-        className="py-5 mb-4"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(93,78,255,0.10) 0%, rgba(93,78,255,0.04) 60%, rgba(0,0,0,0) 100%)",
-          borderBottom: "1px solid rgba(0,0,0,0.05)",
-        }}
-      >
+      <div className="servicio-hero text-white py-5 mb-4" data-aos="fade-down">
         <Container>
           <Breadcrumb className="mb-2">
             <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/servicios" }}>
@@ -271,7 +267,11 @@ function ServicioDetalle() {
             <Breadcrumb.Item active>{data.titulo}</Breadcrumb.Item>
           </Breadcrumb>
 
-          <h1 className="display-5 fw-semibold mb-2">{data.titulo}</h1>
+          <h1 className="display-6 fw-bold mb-2 d-flex align-items-center gap-2">
+            <span className="opacity-75">{CAT_ICON[data.categoria] || <FiCode />}</span>
+            {data.titulo}
+          </h1>
+
           <div className="d-flex align-items-center gap-3 flex-wrap">
             <Badge bg="light" text="dark">
               {data.categoria}
@@ -281,49 +281,50 @@ function ServicioDetalle() {
                 {data.heroTag}
               </Badge>
             )}
-            <span className="text-muted">Desde {CLP.format(data.desde)}</span>
+            <span className="text-light-emphasis">
+              Desde {CLP.format(data.desde)}
+            </span>
           </div>
         </Container>
       </div>
 
       {/* CONTENIDO */}
-      <section className="py-2">
+      <section className="py-5 section-soft">
         <Container>
           <Row className="g-4">
-            <Col md={8}>
-              <Card className="border-0 mb-3">
-                <Card.Body className="p-0">
-                  <h5 className="mb-2">¿Qué es?</h5>
+            {/* Columna principal */}
+            <Col md={8} data-aos="fade-right">
+              <Card className="border-0 shadow-soft mb-4 rounded-4">
+                <Card.Body>
+                  <h5 className="fw-semibold mb-2">¿Qué es?</h5>
                   <p className="text-muted">{data.queEs}</p>
                 </Card.Body>
               </Card>
 
-              <Card className="border-0 mb-3">
-                <Card.Body className="p-0">
+              <Card className="border-0 shadow-soft mb-4 rounded-4">
+                <Card.Body>
                   <div className="d-flex align-items-center gap-2 mb-2">
                     <FiRefreshCw />
                     <h5 className="m-0">¿Cómo trabajamos (Scrum)?</h5>
                   </div>
 
-                  {/* Timeline simple de sprints */}
                   <ListGroup variant="flush" className="mb-3">
-                    <ListGroup.Item className="px-0">
-                      <strong>Sprint 0 – Descubrimiento (1–2 días):</strong>{" "}
-                      objetivos, alcance y user stories prioritarias.
+                    <ListGroup.Item className="px-0 border-0">
+                      <strong>Sprint 0 – Descubrimiento:</strong> objetivos,
+                      alcance y user stories prioritarias.
                     </ListGroup.Item>
-                    <ListGroup.Item className="px-0">
-                      <strong>Sprints de 1 semana:</strong> planificación,
-                      desarrollo, demo y retrospectiva. Siempre ves avances.
+                    <ListGroup.Item className="px-0 border-0">
+                      <strong>Sprints semanales:</strong> planificación,
+                      desarrollo, demo y retrospectiva.
                     </ListGroup.Item>
-                    <ListGroup.Item className="px-0">
-                      <strong>Canales de contacto:</strong> reuniones breves
-                      (según necesites) y seguimiento por chat/correo con
-                      actualizaciones semanales.
+                    <ListGroup.Item className="px-0 border-0">
+                      <strong>Canales:</strong> reuniones breves y resumen
+                      semanal por correo/chat.
                     </ListGroup.Item>
                   </ListGroup>
 
                   <h6 className="mt-3">Dentro del sprint</h6>
-                  <ul className="mb-0">
+                  <ul className="mb-0 text-muted">
                     {data.comoSeHace.map((i, k) => (
                       <li key={k}>{i}</li>
                     ))}
@@ -331,13 +332,13 @@ function ServicioDetalle() {
                 </Card.Body>
               </Card>
 
-              <Card className="border-0 mb-3">
-                <Card.Body className="p-0">
+              <Card className="border-0 shadow-soft mb-4 rounded-4">
+                <Card.Body>
                   <div className="d-flex align-items-center gap-2 mb-2">
                     <FiCheckCircle />
                     <h5 className="m-0">Entregables</h5>
                   </div>
-                  <ul className="mb-0">
+                  <ul className="mb-0 text-muted">
                     {data.entregables.map((i, k) => (
                       <li key={k}>{i}</li>
                     ))}
@@ -345,8 +346,8 @@ function ServicioDetalle() {
                 </Card.Body>
               </Card>
 
-              <Card className="border-0 mb-4">
-                <Card.Body className="p-0">
+              <Card className="border-0 shadow-soft mb-4 rounded-4">
+                <Card.Body>
                   <div className="d-flex align-items-center gap-2 mb-2">
                     <FiClock />
                     <h5 className="m-0">Tiempos estimados</h5>
@@ -360,75 +361,74 @@ function ServicioDetalle() {
                   <FiArrowLeft className="me-1" />
                   Volver
                 </Button>
-               
-               <Button
-                as={Link}
-                to="/contacto"
-                state={{
+
+                <Button
+                  as={Link}
+                  to="/contacto"
+                  state={{
                     servicio: {
-                    slug: toSlug(data.titulo),
-                    titulo: data.titulo,
-                    categoria: data.categoria,
-                    desde: data.desde,
-                    resumen: data.queEs,
-                    highlights: (data.highlights || []).map(h => h.text),
-                    entregables: data.entregables.slice(0, 3), // top 3 para no saturar
-                    metodologia: "Scrum con sprints semanales, demos y seguimiento."
-                    }
-                }}
-                variant="primary"
+                      slug: toSlug(data.titulo),
+                      titulo: data.titulo,
+                      categoria: data.categoria,
+                      desde: data.desde,
+                      resumen: data.queEs,
+                      highlights: (data.highlights || []).map((h) => h.text),
+                      entregables: data.entregables.slice(0, 3),
+                      metodologia:
+                        "Scrum con sprints semanales, demos y seguimiento.",
+                    },
+                  }}
+                  variant="primary"
+                  className="btn-gradient"
                 >
-                Quiero cotizar
+                  Quiero cotizar
                 </Button>
               </div>
 
-              {/* FAQ cortito para dar confianza */}
-              <Accordion alwaysOpen>
+              <Accordion alwaysOpen data-aos="fade-up">
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>¿Cómo fijan el precio final?</Accordion.Header>
                   <Accordion.Body>
-                    Partimos con un alcance claro y un precio “desde”. Si el
-                    alcance cambia, lo transparentamos antes de continuar. No
-                    hay sorpresas.
+                    Partimos con un alcance claro y un precio “desde”. Cualquier
+                    cambio se transparenta antes de avanzar.
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
                   <Accordion.Header>¿Cómo es la comunicación?</Accordion.Header>
                   <Accordion.Body>
-                    Tendrás un canal directo para consultas rápidas y un
-                    resumen semanal de avances. Las demos de sprint mantienen
-                    todo alineado.
+                    Canal directo para dudas rápidas y resumen semanal de
+                    avances. Las demos de sprint mantienen todo alineado.
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="2">
                   <Accordion.Header>¿Qué pasa después de entregar?</Accordion.Header>
                   <Accordion.Body>
-                    Incluimos soporte post-entrega inicial y podemos continuar
-                    con planes mensuales de soporte/seguridad si lo necesitas.
+                    Incluimos soporte post-entrega inicial y planes de soporte
+                    mensual opcionales.
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
             </Col>
 
-            {/* SIDEBAR */}
-            <Col md={4}>
-              <Card className="shadow-sm border-0 sticky-top" style={{ top: 88 }}>
+            {/* Sidebar */}
+            <Col md={4} data-aos="fade-left">
+              <Card className="shadow-soft border-0 sticky-top rounded-4" style={{ top: 88 }}>
                 <Card.Body>
                   <h6 className="mb-3">Incluye siempre</h6>
                   <ListGroup variant="flush" className="mb-3">
-                    <ListGroup.Item className="px-0 d-flex align-items-start gap-2">
+                    <ListGroup.Item className="px-0 border-0 d-flex align-items-start gap-2">
                       <FiMessageSquare className="mt-1" />
                       <span>Asesoría inicial sin costo</span>
                     </ListGroup.Item>
-                    <ListGroup.Item className="px-0 d-flex align-items-start gap-2">
+                    <ListGroup.Item className="px-0 border-0 d-flex align-items-start gap-2">
                       <FiRefreshCw className="mt-1" />
                       <span>Planificación ágil con sprints</span>
                     </ListGroup.Item>
-                    <ListGroup.Item className="px-0 d-flex align-items-start gap-2">
+                    <ListGroup.Item className="px-0 border-0 d-flex align-items-start gap-2">
                       <FiClock className="mt-1" />
                       <span>Actualizaciones semanales</span>
                     </ListGroup.Item>
-                    <ListGroup.Item className="px-0 d-flex align-items-start gap-2">
+                    <ListGroup.Item className="px-0 border-0 d-flex align-items-start gap-2">
                       <FiShield className="mt-1" />
                       <span>Soporte post-entrega (7 días)</span>
                     </ListGroup.Item>
@@ -437,7 +437,7 @@ function ServicioDetalle() {
                   {data.highlights?.length > 0 && (
                     <>
                       <h6 className="mb-2">Diferenciales</h6>
-                      <ul className="mb-3 ps-3">
+                      <ul className="mb-3 ps-3 text-muted">
                         {data.highlights.map((h, i) => (
                           <li key={i} className="d-flex align-items-start gap-2">
                             <span className="mt-1">{h.icon}</span>
@@ -448,19 +448,17 @@ function ServicioDetalle() {
                     </>
                   )}
 
-                  <div className="p-3 rounded bg-light">
-                    <div className="small text-muted">
-                      Los precios “desde” pueden variar según alcance,
-                      integraciones y urgencia. Siempre transparentamos los
-                      costos antes de iniciar.
-                    </div>
+                  <div className="p-3 rounded bg-light small text-muted mb-3">
+                    Los precios “desde” pueden variar según alcance e
+                    integraciones. Siempre transparentamos los costos antes de
+                    iniciar.
                   </div>
 
                   <Button
                     as={Link}
                     to="/contacto"
                     variant="primary"
-                    className="w-100 mt-3"
+                    className="w-100 btn-gradient"
                   >
                     Cotizar este servicio
                   </Button>

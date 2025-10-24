@@ -1,0 +1,120 @@
+/* ====== HERO ====== */
+.servicios-hero {
+  padding: 56px 0 28px;
+  background:
+    radial-gradient(1200px 300px at 10% -80%, rgba(111, 62, 244, 0.25), transparent 60%),
+    radial-gradient(1200px 300px at 90% -80%, rgba(0, 180, 255, 0.25), transparent 60%),
+    linear-gradient(135deg, #0f172a 0%, #111827 60%, #0f172a 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.servicios-title {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: .25rem;
+}
+.servicios-subtitle {
+  color: #c7d2fe;
+  margin: 0;
+}
+
+/* ====== FILTRO GLASS ====== */
+.filtro-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(2, 6, 23, 0.06);
+}
+.input-lg {
+  height: 44px;
+  padding-left: 38px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.input-lg:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, .15);
+}
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  opacity: .7;
+}
+
+/* ====== CARDS ====== */
+.servicio-card {
+  box-shadow: 0 10px 28px rgba(2, 6, 23, .06);
+  transition: transform .18s ease, box-shadow .18s ease, border .18s ease;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+}
+.servicio-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 48px rgba(2, 6, 23, .12);
+  border-color: rgba(99, 102, 241, .25);
+}
+.servicio-heading {
+  letter-spacing: -0.01em;
+}
+.precio {
+  color: #0ea5e9; /* azul acento para el precio */
+}
+
+/* Icono de cada tarjeta */
+.icon-wrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #1e1b4b;
+  background: #eef2ff;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+}
+
+/* Chips/Badges de categoría */
+.chip {
+  font-weight: 600;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+}
+.cat-dev   { background: #eef2ff !important; color: #3730a3 !important; }
+.cat-cloud { background: #e0f2fe !important; color: #075985 !important; }
+.cat-support{ background: #dcfce7 !important; color: #065f46 !important; }
+.cat-int   { background: #f3e8ff !important; color: #6b21a8 !important; }
+.cat-auto  { background: #ffedd5 !important; color: #9a3412 !important; }
+.cat-ui    { background: #f4f4f5 !important; color: #27272a !important; }
+
+/* Botón “Ver más” */
+.btn-ghost {
+  border-color: #93c5fd !important;
+  color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, .05);
+  border-radius: 10px;
+}
+.btn-ghost:hover {
+  background: linear-gradient(90deg, rgba(111, 62, 244, .12), rgba(0, 180, 255, .12));
+  color: #0ea5e9 !important;
+  transform: translateX(1px);
+}
+
+/* Skeletons */
+.skeleton-card { padding: 20px; border-radius: 16px; }
+.skeleton-line,
+.skeleton-chip {
+  background: linear-gradient(90deg, #eee 25%, #f6f6f6 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+.skeleton-line { height: 12px; border-radius: 6px; }
+.skeleton-chip { width: 92px; height: 24px; border-radius: 999px; margin-top: 16px; }
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+/* Responsive touch-ups */
+@media (max-width: 575.98px) {
+  .servicios-hero { padding: 44px 0 22px; }
+}

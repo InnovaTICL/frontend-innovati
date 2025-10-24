@@ -1,0 +1,112 @@
+/* HERO */
+.hero-home {
+  background: linear-gradient(90deg, #0f1b43 0%, #1b265e 100%);
+  color: #fff;
+  padding: 72px 0 56px;
+}
+.hero-logo { height: 48px; }
+.hero-kicker { color: rgba(255,255,255,.92); }
+.hero-title { text-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.hero-subtitle { color: rgba(255,255,255,.9); }
+.btn-link-hero { color: #fff !important; text-decoration: none !important; }
+.btn-link-hero:hover { opacity: .9; }
+
+.metric-card {
+  background: rgba(255,255,255,.1);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.15);
+}
+
+/* BOTONES */
+.btn-gradient {
+  background: linear-gradient(90deg, #6f3ef4, #00b4ff);
+  border: none;
+  color: #fff !important;
+  border-radius: 10px;
+  transition: all .25s ease;
+}
+.btn-gradient:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(111,62,244,.25);
+}
+
+/* TARJETAS */
+.shadow-soft { box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.rounded-2xl { border-radius: 20px; }
+.servicio-card { transition: transform .2s ease, box-shadow .2s ease; }
+.servicio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0,0,0,.12);
+}
+
+/* POR QUÉ ELEGIRNOS */
+.section-why {
+  background:
+    radial-gradient(900px 320px at 15% -10%, rgba(111,62,244,0.10), transparent 60%),
+    radial-gradient(700px 260px at 85% 0%, rgba(0,180,255,0.10), transparent 60%),
+    #f6f9ff;
+}
+.section-title {
+  position: relative;
+  display: inline-block;
+}
+.section-title::after {
+  content: "";
+  height: 4px;
+  width: 120px;
+  border-radius: 999px;
+  display: block;
+  margin: 10px auto 0;
+  background: linear-gradient(90deg, #6f3ef4, #00b4ff);
+  opacity: .9;
+}
+.why-card {
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(2,6,23,0.06);
+  backdrop-filter: saturate(120%) blur(2px);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.why-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(2,6,23,0.10);
+}
+
+/* CTA FINAL OSCURA */
+.section-cta {
+  background: linear-gradient(90deg, #0f1b43 0%, #1b265e 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.section-cta::before,
+.section-cta::after {
+  content: "";
+  position: absolute;
+  filter: blur(50px);
+  opacity: .25;
+}
+.section-cta::before {
+  width: 320px; height: 320px;
+  background: #6f3ef4;
+  left: -60px; top: -80px;
+}
+.section-cta::after {
+  width: 280px; height: 280px;
+  background: #00b4ff;
+  right: -40px; bottom: -60px;
+}
+.section-cta .cta-sub {
+  color: rgba(255,255,255,0.9);
+}
+
+/* TEXTO GENERAL */
+.text-muted { color: #475569 !important; }
+
+/* OPTIMIZACIÓN AOS */
+[data-aos] { will-change: transform, opacity; }
+
+/* RESPONSIVE */
+@media (max-width: 575.98px) {
+  .hero-home { padding: 56px 0 40px; }
+}

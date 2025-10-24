@@ -1,0 +1,126 @@
+/* Hero consistente con Contacto/Servicios */
+.servicio-hero {
+  background: linear-gradient(90deg, #0f1b43 0%, #1b265e 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Fondo suave para el contenido */
+.section-soft {
+  background-color: #f8fafc;
+}
+
+/* Sombra suave y moderna */
+.shadow-soft {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Botón corporativo (violeta-azul) */
+.btn-gradient {
+  background: linear-gradient(90deg, #6f3ef4, #00b4ff);
+  border: none;
+  color: #fff !important;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+.btn-gradient:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(111, 62, 244, 0.3);
+}
+
+/* Optimiza animaciones AOS */
+[data-aos] {
+  will-change: transform, opacity;
+}
+
+/* ——— LEGIBILIDAD EN HERO ——— */
+
+/* Título bien blanco y un leve shadow para separar del gradiente */
+.servicio-hero h1 {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  letter-spacing: -0.01em;
+}
+
+/* Migas de pan más visibles */
+.servicio-hero .breadcrumb {
+  --bs-breadcrumb-divider-color: rgba(255,255,255,0.6);
+}
+.servicio-hero .breadcrumb .breadcrumb-item a {
+  color: #dbeafe;                /* azul muy claro */
+  text-decoration: none;
+}
+.servicio-hero .breadcrumb .breadcrumb-item a:hover {
+  color: #ffffff;
+}
+.servicio-hero .breadcrumb .breadcrumb-item.active {
+  color: rgba(255,255,255,0.95); /* casi blanco */
+}
+
+/* “Desde $..” más legible (Bootstrap usa alpha baja aquí) */
+.servicio-hero .text-light-emphasis {
+  color: rgba(255,255,255,0.88) !important;
+}
+
+/* Badges en hero con mejor contraste */
+.servicio-hero .badge.bg-secondary {
+  background-color: rgba(255,255,255,0.22) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.28);
+}
+.servicio-hero .badge.bg-light {
+  background-color: #e2e8f0 !important;  /* gris claro sólido */
+  color: #0f172a !important;             /* texto oscuro */
+}
+
+/* ——— LEGIBILIDAD EN CONTENIDO ——— */
+
+/* Por defecto .text-muted es muy bajo para cards blancos: lo subimos */
+.section-soft .text-muted,
+.section-soft .card .text-muted,
+.section-soft .list-group-item .text-muted {
+  color: #475569 !important;  /* slate-600 */
+}
+
+/* Listas y párrafos dentro de tarjetas */
+.section-soft .card p,
+.section-soft .card li {
+  color: #334155;            /* slate-700 */
+}
+
+/* Títulos de bloques dentro de tarjetas */
+.section-soft .card h5,
+.section-soft .card h6 {
+  color: #0f172a;            /* casi negro */
+}
+
+/* Caja de “precios desde…” del sidebar: subir contraste */
+.section-soft .card .bg-light {
+  color: #475569;
+}
+
+/* Botón secundario “Volver”: borde y texto más marcados en hover */
+.section-soft .btn-outline-secondary:hover {
+  color: #0f172a;
+  border-color: #94a3b8;
+  background-color: #f8fafc;
+}
+
+/* Sombra un poquito más profunda para separar del fondo claro */
+.shadow-soft {
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.06);
+}
+
+/* Ajuste de bullets: que no queden demasiado pálidos */
+.section-soft ul li::marker {
+  color: #64748b; /* slate-500 */
+}
+
+/* Accordeón: títulos más oscuros para lectura */
+.section-soft .accordion-button {
+  color: #0f172a;
+}
+.section-soft .accordion-button:not(.collapsed) {
+  color: #0f172a;
+  background-color: #f8fafc;
+}

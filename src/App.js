@@ -13,6 +13,8 @@ import Servicios from './pages/Servicios';
 import Contacto from './pages/Contacto';
 import Planes from './pages/Planes';
 import ServicioDetalle from './pages/ServicioDetalle'; 
+import Terminos from "./pages/Terminos";
+import Privacidad from "./pages/Privacidad";
 
 // Portal Cliente
 import ClienteLogin from './pages/clientes/ClienteLogin';
@@ -62,6 +64,8 @@ function App() {
           <Route path="/servicios" element={<Servicios />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/planes" element={<Planes />} />
+          <Route path="/terminos" element={<Terminos />} />
+          <Route path="/privacidad" element={<Privacidad />} />
           <Route path="/servicios/:slug" element={<ServicioDetalle />} />
 
           {/* Portal Cliente */}

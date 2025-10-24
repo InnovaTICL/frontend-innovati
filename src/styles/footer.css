@@ -1,0 +1,76 @@
+.footer {
+  background: #0f172a; /* azul muy oscuro, consistente con su tema */
+  color: #e5e7eb;
+}
+
+/* ancho consistente con el header */
+.footer-wrap {
+  max-width: 1180px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.footer-top {
+  padding: 40px 0 28px;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 14px 0;
+  background: #0b1220;
+}
+
+/* Tipos y colores */
+.section-title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: .3px;
+  margin-bottom: .75rem;
+}
+
+.text-muted { color: #a3b2c7 !important; }
+
+.footer-link {
+  color: #c8d3e6 !important;
+  text-decoration: none;
+  padding: .2rem 0;
+}
+.footer-link:hover {
+  color: #ffffff !important;
+}
+
+/* Marca */
+.brand-text {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.text-gradient {
+  background: linear-gradient(90deg, #6f3ef4, #00b4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.brand-ti { color: #6f3ef4; }
+
+/* Chips para redes (opcional) */
+.chip {
+  display: inline-block;
+  padding: .35rem .6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #d8e0ef;
+  font-size: .85rem;
+  text-decoration: none;
+}
+.chip:hover {
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+/* Responsivo */
+@media (max-width: 575.98px) {
+  .footer-top { padding: 28px 0 18px; }
+}
