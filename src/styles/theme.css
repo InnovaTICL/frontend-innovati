@@ -244,3 +244,69 @@ tr.is-overdue{ background:#fff7ed!important; }
   .btn-outline-primary{ color:#7ed7f8; border-color:#2a6a80; }
   .btn-outline-primary:hover{ background:rgba(var(--inn-primary-rgb),.15); }
 }
+/* ===== Overrides adicionales para que TODO permanezca claro ===== */
+
+/* Asegura tono claro global (ya lo tiene, lo reforzamos) */
+:root, html, body {
+  color-scheme: light;
+}
+
+/* Cuando el sistema está en oscuro, mantenemos los mismos colores claros */
+@media (prefers-color-scheme: dark) {
+
+  /* Superficies base */
+  body,
+  .card, .table-card, .modal-content, .offcanvas, .dropdown-menu,
+  .list-group-item,
+  .navbar, .navbar-modern {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e5e7eb !important;
+  }
+
+  /* Texto atenuado/“muted” que se veía demasiado pálido */
+  .text-muted, .muted, .subtitle, .kpi-title {
+    color: #6b7280 !important; /* gris legible */
+  }
+
+  /* ===== Accordion / FAQ (evita fondos oscuros) ===== */
+  .accordion,
+  .accordion .accordion-item,
+  .accordion .accordion-header,
+  .accordion .accordion-button,
+  .accordion .accordion-body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e5e7eb !important;
+  }
+  .accordion .accordion-button:not(.collapsed) {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+  }
+  /* Icono de flecha del accordion */
+  .accordion-button::after {
+    filter: none !important;
+  }
+
+  /* Botones e inputs (impide que el SO los oscurezca) */
+  input, textarea, select,
+  .form-control, .form-select {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  /* Chips/badges que se lavaban en oscuro */
+  .badge, .pill, .badge-soft {
+    filter: none !important;
+  }
+
+  /* Héroe/hero: si usa un gradiente oscuro propio, no lo invertimos */
+  .hero, .hero-wrap {
+    filter: none !important;
+  }
+
+  /* Imágenes y SVG sin inversión automática */
+  img, svg, video, canvas { filter: none !important; }
+}
