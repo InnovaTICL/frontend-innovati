@@ -17,7 +17,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "../styles/contacto.css";
 
-const WHATSAPP_NUMBER = "+56900000000";
+const WHATSAPP_NUMBER = "+56962844148";
 
 function Contacto() {
   const [nombre, setNombre] = useState("");
@@ -238,10 +238,10 @@ function Contacto() {
                       <div className="d-flex flex-column">
                         <span className="text-muted small mb-1">Teléfono</span>
                         <a
-                          href="tel:+56900000000"
+                          href="tel:+56962844148"
                           className="fw-semibold text-dark text-decoration-none"
                         >
-                          +56 9 0000 0000
+                          +56 9 62844148
                         </a>
                       </div>
                     </ListGroup.Item>
