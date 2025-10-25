@@ -403,8 +403,10 @@ function ServicioDetalle() {
                 <Accordion.Item eventKey="2">
                   <Accordion.Header>¿Qué pasa después de entregar?</Accordion.Header>
                   <Accordion.Body>
-                    Incluimos soporte post-entrega inicial y planes de soporte
-                    mensual opcionales.
+                    {/* <-- ÚNICO CAMBIO DE TEXTO para dejar explícitos los 30 días --> */}
+                    Incluimos soporte post-entrega <strong>correctivo por 30 días</strong> desde la
+                    instalación en producción (errores o ajustes menores dentro del alcance original).
+                    Luego puede contratarse soporte mensual opcional.
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
@@ -430,7 +432,7 @@ function ServicioDetalle() {
                     </ListGroup.Item>
                     <ListGroup.Item className="px-0 border-0 d-flex align-items-start gap-2">
                       <FiShield className="mt-1" />
-                      <span>Soporte post-entrega (7 días)</span>
+                      <span>Soporte post-entrega (30 días)</span>
                     </ListGroup.Item>
                   </ListGroup>
 

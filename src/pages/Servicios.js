@@ -11,19 +11,14 @@ import "aos/dist/aos.css";
 import { API_BASE } from "../config/api";
 import "../styles/servicios.css";
 
-const FALLBACK = [
-  { id: 1, titulo: "Desarrollo a medida", descripcion: "Aplicaciones web con React, APIs seguras y PostgreSQL.", categoria: "Desarrollo", desde_precio: 120000 },
-  { id: 2, titulo: "Cloud y DevOps", descripcion: "Despliegue en AWS/Azure, CI/CD y optimización de costos.", categoria: "Cloud", desde_precio: 200000 },
-  { id: 3, titulo: "Soporte y seguridad", descripcion: "Backups, monitoreo y hardening continuo.", categoria: "Soporte", desde_precio: 180000 },
-];
+/* ---------- Utilidades ---------- */
+const CLP = new Intl.NumberFormat("es-CL", {
+  style: "currency",
+  currency: "CLP",
+  maximumFractionDigits: 0,
+});
 
-const CLP = new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 });
-const formatDesdePrecio = (v) => {
-  if (v === null || v === undefined || v === "") return "consulta";
-  const n = Number(v);
-  return isNaN(n) ? "consulta" : n > 0 ? CLP.format(n) : "a convenir";
-};
-
+// slug local solo si la API no lo entrega
 const toSlug = (t = "") =>
   t.toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -31,14 +26,31 @@ const toSlug = (t = "") =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-const CAT = {
-  Desarrollo: { icon: <FiCode />, className: "cat-dev" },
-  Cloud: { icon: <FiCloud />, className: "cat-cloud" },
-  Soporte: { icon: <FiShield />, className: "cat-support" },
-  Integraciones: { icon: <FiLayers />, className: "cat-int" },
-  Automatización: { icon: <FiZap />, className: "cat-auto" },
-  "UI/UX": { icon: <FiPenTool />, className: "cat-ui" },
+const formatDesdePrecio = (v) => {
+  if (v === null || v === undefined || v === "") return "consulta";
+  const n = Number(v);
+  return isNaN(n) ? "consulta" : n > 0 ? CLP.format(n) : "a convenir";
 };
+
+// Íconos por categoría
+const CAT = {
+  Desarrollo:     { icon: <FiCode />,   className: "cat-dev" },
+  Cloud:          { icon: <FiCloud />,  className: "cat-cloud" },
+  Soporte:        { icon: <FiShield />, className: "cat-support" },
+  Integraciones:  { icon: <FiLayers />, className: "cat-int" },
+  Automatización: { icon: <FiZap />,    className: "cat-auto" },
+  "UI/UX":        { icon: <FiPenTool />,className: "cat-ui" },
+};
+
+// Normaliza un item recibido desde la API para que el render sea estable
+const normalizeServicio = (s) => ({
+  id: s.id ?? s._id ?? `${(s.titulo || "srv")}-${Math.random().toString(36).slice(2, 8)}`,
+  titulo: s.titulo ?? "",
+  descripcion: s.descripcion ?? "",
+  categoria: s.categoria ?? "Desarrollo",
+  desde_precio: s.desde_precio ?? s.desde ?? s.precio_desde ?? s.precio ?? null,
+  slug: s.slug ?? toSlug(s.titulo || ""),
+});
 
 function Servicios() {
   const [servicios, setServicios] = useState([]);
@@ -55,19 +67,27 @@ function Servicios() {
     const controller = new AbortController();
     (async () => {
       try {
+        setCargando(true);
+        setError(null);
+
+        // Carga estrictamente desde la API
         const res = await fetch(`${API_BASE}/servicios`, { signal: controller.signal });
         if (!res.ok) throw new Error(`Error ${res.status}`);
+
         const data = await res.json();
         const lista = Array.isArray(data)
           ? data
           : Array.isArray(data?.servicios)
           ? data.servicios
           : [];
-        setServicios(lista.length ? lista : FALLBACK);
+
+        // NO usar FALLBACK local: si la API trae 0, mostramos 0 (controlado)
+        const normalizados = lista.map(normalizeServicio);
+        setServicios(normalizados);
       } catch (e) {
         if (e.name !== "AbortError") {
-          setError(e.message);
-          setServicios(FALLBACK);
+          setError(e.message || "No se pudo cargar la lista de servicios.");
+          setServicios([]); // sin mezcla con fallback local
         }
       } finally {
         setCargando(false);
@@ -101,7 +121,7 @@ function Servicios() {
         <Container>
           <h1 className="servicios-title">Servicios</h1>
           <p className="servicios-subtitle">
-            Elige lo que necesitas y conversemos tu proyecto.
+            Soluciones profesionales a precios accesibles para empresas que inician su transformación digital.
           </p>
         </Container>
       </div>
@@ -141,9 +161,7 @@ function Servicios() {
                   <div className="small text-muted">
                     {cargando
                       ? "Cargando…"
-                      : `${filtrados.length} resultado${
-                          filtrados.length === 1 ? "" : "s"
-                        }`}
+                      : `${filtrados.length} resultado${filtrados.length === 1 ? "" : "s"}`}
                   </div>
                 </Col>
               </Row>
@@ -152,7 +170,7 @@ function Servicios() {
 
           {error && (
             <Alert variant="warning" className="mb-4" data-aos="fade-up">
-              No se pudo cargar desde la API (<code>{error}</code>).
+              No se pudo cargar desde la API (<code>{error}</code>). Intente nuevamente.
             </Alert>
           )}
 
@@ -208,7 +226,7 @@ function Servicios() {
                           </small>
                           <Button
                             as={Link}
-                            to={`/servicios/${toSlug(s.titulo)}`}
+                            to={`/servicios/${s.slug || toSlug(s.titulo)}`}
                             size="sm"
                             variant="outline-primary"
                             className="btn-ghost"
@@ -227,7 +245,7 @@ function Servicios() {
                   <Card.Body className="py-5">
                     <h5 className="mb-1 fw-bold">Sin resultados</h5>
                     <p className="text-muted mb-0">
-                      No encontramos servicios para este filtro.
+                      No encontramos servicios. Revise que su API /servicios devuelva datos.
                     </p>
                   </Card.Body>
                 </Card>

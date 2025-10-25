@@ -72,19 +72,30 @@
   box-shadow: 0 16px 38px rgba(2,6,23,0.10);
 }
 
-/* CTA FINAL OSCURA */
+/* CTA FINAL — asegura que quede por ENCIMA del degradado del footer */
 .section-cta {
   background: linear-gradient(90deg, #0f1b43 0%, #1b265e 100%);
   color: #fff;
+  padding: 72px 0;              /* respiro */
   position: relative;
+  isolation: isolate;           /* nuevo stacking context */
+  z-index: 9999;                /* muy por encima del footer */
   overflow: hidden;
+  text-align: center;
+  transform: translateZ(0);     /* fuerza nueva capa (acelera y evita glitches) */
 }
+.section-cta .container {
+  position: relative;
+  z-index: 2;
+}
+.section-cta .cta-sub { color: rgba(255,255,255,0.9); }
 .section-cta::before,
 .section-cta::after {
   content: "";
   position: absolute;
   filter: blur(50px);
   opacity: .25;
+  z-index: 1;
 }
 .section-cta::before {
   width: 320px; height: 320px;
@@ -96,8 +107,18 @@
   background: #00b4ff;
   right: -40px; bottom: -60px;
 }
-.section-cta .cta-sub {
-  color: rgba(255,255,255,0.9);
+
+/* BAJA cualquier overlay del footer para que NO tape el CTA */
+footer, .site-footer, .app-footer, .footer {
+  position: relative;
+  z-index: 1;                   /* debajo del CTA (9999) */
+}
+footer::before, footer::after,
+.site-footer::before, .site-footer::after,
+.app-footer::before, .app-footer::after,
+.footer::before, .footer::after {
+  z-index: 0 !important;        /* bandas decorativas al fondo */
+  pointer-events: none;         /* no interfieren */
 }
 
 /* TEXTO GENERAL */
@@ -110,3 +131,11 @@
 @media (max-width: 575.98px) {
   .hero-home { padding: 56px 0 40px; }
 }
+
+/* Texto con degradado (para el HERO) */
+.text-gradient {
+  background: linear-gradient(90deg, #6f3ef4, #00b4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
