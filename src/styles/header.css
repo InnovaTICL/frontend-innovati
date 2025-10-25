@@ -130,3 +130,37 @@ body {
     max-width: 1280px;
   }
 }
+
+/* ===== Menú móvil como bandeja blanca ===== */
+.navbar-modern { position: relative; } /* ancla para posicionar la bandeja */
+
+@media (max-width: 991.98px) { /* breakpoint de Bootstrap para lg */
+  .navbar-modern .navbar-collapse {
+    position: absolute;
+    top: 68px;         /* misma altura del header */
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background: #ffffff;                 /* fondo sólido */
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 12px 24px rgba(0,0,0,.08);
+    padding: 12px 16px;
+  }
+
+  /* Pila vertical limpia y legible */
+  .navbar-modern .nav.nav-links {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: .25rem;
+  }
+  .navbar-modern .nav-links .nav-link {
+    padding: .65rem 0;
+    font-size: 1.05rem;
+  }
+
+  /* CTA ocupa ancho completo debajo de los links */
+  .navbar-modern .btn-cta {
+    width: 100%;
+    margin-top: .25rem;
+  }
+}

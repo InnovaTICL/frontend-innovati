@@ -1,48 +1,90 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import "../styles/header.css"; // <- usted lo dejó como header.css
+import { NavLink, Link } from "react-router-dom";
+import "../styles/header.css";
 
 function Header() {
+  const [expanded, setExpanded] = useState(false);
+
+  const closeMenu = () => setExpanded(false);
+
   return (
     <Navbar
       expand="lg"
       sticky="top"
-      className="navbar-modern py-2 shadow-sm"
       collapseOnSelect
+      expanded={expanded}
+      onToggle={(val) => setExpanded(val)}
+      className="navbar-modern py-2 shadow-sm position-relative"
     >
-      {/* Contenedor más estrecho */}
       <Container className="navbar-wrap">
-        {/* LOGO + Marca */}
-        <Navbar.Brand as={Link} to="/" className="brand-wrap">
+        {/* Marca */}
+        <Navbar.Brand as={Link} to="/inicio" className="brand-wrap">
           <img
-            src={process.env.PUBLIC_URL + "/logo.png"}
+            src="/logo.png"
             alt="InnovaTI"
-            height="34"
+            width="28"
+            height="28"
+            style={{ borderRadius: 8 }}
           />
-          <span className="brand-text">
-            <span className="text-gradient">Innova</span>
-            <span className="brand-ti">TI</span>
+          <span className="brand-text ms-2">
+            Innova<span className="text-gradient">TI</span>
           </span>
         </Navbar.Brand>
 
+        {/* Hamburguesa */}
         <Navbar.Toggle aria-controls="main-nav" />
-        <Navbar.Collapse id="main-nav" className="justify-content-end">
-          <Nav className="align-items-center gap-3 nav-links">
-            <Nav.Link as={NavLink} to="/" end>
-              Inicio
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/servicios">
-              Servicios
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/contacto">
-              Contacto
-            </Nav.Link>
 
+        {/* Menú */}
+        <Navbar.Collapse id="main-nav">
+          <Nav className="nav nav-links ms-auto align-items-center">
+            <NavLink
+              to="/inicio"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+              onClick={closeMenu}
+            >
+              Inicio
+            </NavLink>
+            <NavLink
+              to="/servicios"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+              onClick={closeMenu}
+            >
+              Servicios
+            </NavLink>
+
+            {/* 
+            <NavLink
+              to="/planes"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+              onClick={closeMenu}
+            >
+              Planes
+            </NavLink>
+            */}
+
+            <NavLink
+              to="/contacto"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+              onClick={closeMenu}
+            >
+              Contacto
+            </NavLink>
+
+            {/* CTA */}
             <Button
               as={Link}
               to="/cliente/login"
-              className="btn-gradient ms-2 px-3 py-2 fw-semibold btn-cta"
+              onClick={closeMenu}
+              className="btn-cta btn-gradient ms-lg-3"
             >
               Acceso Clientes
             </Button>

@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* ===== Fuerza modo claro global ===== */
+:root, html, body {
+  color-scheme: light;
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Bloquea inversión de colores cuando el SO usa modo oscuro */
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* Evita que se oscurezcan tarjetas, headers o modales */
+  .card, .navbar, .offcanvas, .modal, .dropdown-menu, .table-card {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* Inputs y selects claros */
+  input, textarea, select, .form-control, .form-select {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* Imágenes sin filtro automático */
+  img, svg, video, canvas {
+    filter: none !important;
+  }
+}
